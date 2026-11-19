@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Students</h2>
+<form class="bar" method="post" action="{{ url_for('student_add') }}">
+  <input name="student_number" placeholder="Student number" required>
+  <input name="name" placeholder="Full name" required size="28">
+  <input name="department" list="depts" placeholder="Department">
+  <datalist id="depts">{% for d in departments %}<option value="{{ d }}">{% endfor %}</datalist>
+  <select name="year_level">{% for y in years %}<option>{{ y }}</option>{% endfor %}</select>
+  <button class="green" type="submit">Add student</button>
+</form>
+<form class="bar" method="get">
+  <input name="q" value="{{ q }}" placeholder="Search number or name"> <button type="submit">Search</button>
+</form>
+<table>
+  <tr><th>Student no.</th><th>Name</th><th>Department</th><th>Year</th><th>Registered</th><th></th></tr>
+  {% for s in rows %}
+  <tr><td>{{ s.student_number }}</td><td>{{ s.name }}</td><td>{{ s.department }}</td><td>{{ s.year_level }}</td>
+      <td>{{ s.created_at }}</td>
+      <td style="display:flex;gap:6px">
+        <a class="btn" href="{{ url_for('student_edit', sn=s.student_number) }}">Edit</a>
+        <form method="post" action="{{ url_for('student_delete', sn=s.student_number) }}" onsubmit="return confirm('Delete this student?')">
+          <button class="red" type="submit">Delete</button></form></td></tr>
+  {% else %}<tr><td colspan="6">No students.</td></tr>{% endfor %}
+</table>
+{% endblock %}

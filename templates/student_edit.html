@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Edit student</h2>
+  <form method="post">
+    <label>Student number</label><input name="student_number" value="{{ s.student_number }}" required>
+    <label>Full name</label><input name="name" value="{{ s.name }}" required>
+    <label>Department</label><input name="department" list="depts" value="{{ s.department }}">
+    <datalist id="depts">{% for d in departments %}<option value="{{ d }}">{% endfor %}</datalist>
+    <label>Year level</label>
+    <select name="year_level">
+      {% for y in years %}<option {{ 'selected' if y==s.year_level }}>{{ y }}</option>{% endfor %}
+    </select>
+    <p><button class="green" type="submit">Save</button> <a class="btn" href="{{ url_for('students') }}">Cancel</a></p>
+  </form>
+</div>
+{% endblock %}

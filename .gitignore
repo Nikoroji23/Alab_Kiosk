@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+kiosk.db
+kiosk.db-wal
+kiosk.db-shm
+captures/

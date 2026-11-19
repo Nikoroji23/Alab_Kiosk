@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Compartments</h2>
+<p>Status is updated automatically by the kiosk. Use the buttons only to fix a wrong status.</p>
+<table>
+  <tr><th>ID</th><th>Item</th><th>Compartment</th><th>Status</th><th>Manual fix</th></tr>
+  {% for c in rows %}
+  <tr class="{{ 'out' if c.status=='borrowed' else 'in' }}">
+    <td>{{ c.id }}</td><td>{{ c.item_name }}</td><td>{{ c.compartment_no }}</td><td>{{ c.status }}</td>
+    <td><form method="post" action="{{ url_for('compartment_status', cid=c.id) }}" style="display:flex;gap:6px">
+      <button name="status" value="available" class="green">Set available</button>
+      <button name="status" value="borrowed" class="red">Set borrowed</button></form></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

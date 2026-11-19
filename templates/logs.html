@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block head %}<meta http-equiv="refresh" content="20">{% endblock %}
+{% block content %}
+<h2>Borrow / Return Logs</h2>
+<form class="bar" method="get">
+  <input name="q" value="{{ q }}" placeholder="Student number or name (e.g. 2023200742)" size="38">
+  <select name="status">
+    <option value="">All</option>
+    <option value="borrowed" {{ 'selected' if status=='borrowed' }}>Not yet returned (red)</option>
+    <option value="returned" {{ 'selected' if status=='returned' }}>Returned (green)</option>
+  </select>
+  <button type="submit">Filter</button>
+  <a class="btn" href="{{ url_for('logs') }}">Clear</a>
+  <span class="pill r">Not returned: {{ out_count }}</span>
+  <span class="pill g">Returned: {{ back_count }}</span>
+</form>
+<table>
+  <tr><th>#</th><th>Student no.</th><th>Name</th><th>Dept / Year</th><th>Item</th><th>Compartment</th>
+      <th>Borrowed at</th><th>Returned at</th><th>Photo</th><th></th></tr>
+  {% for r in rows %}
+  <tr class="{{ 'out' if r.status=='borrowed' else 'in' }}">
+    <td>{{ r.id }}</td>
+    <td><a class="sn" href="{{ url_for('logs', q=r.student_number) }}">{{ r.student_number }}</a></td>
+    <td>{{ r.name or '-' }}</td>
+    <td>{{ r.department or '-' }} / {{ r.year_level or '-' }}</td>
+    <td>{{ r.item_name }}</td>
+    <td>{{ r.compartment_no }}</td>
+    <td>{{ r.borrowed_at }}</td>
+    <td>{% if r.status=='returned' %}{{ r.returned_at }}{% else %}<b>NOT RETURNED</b>{% endif %}</td>
+    <td>{% if r.face_photo %}<a href="{{ url_for('photo', filename=r.face_photo) }}" target="_blank">
+        <img class="th" src="{{ url_for('photo', filename=r.face_photo) }}"></a>{% endif %}</td>
+    <td>{% if r.status=='borrowed' %}
+      <form method="post" action="{{ url_for('force_return', tid=r.id) }}" onsubmit="return confirm('Mark as returned manually?')">
+        <button class="red" type="submit">Force return</button></form>{% endif %}</td>
+  </tr>
+  {% else %}<tr><td colspan="10">No records.</td></tr>{% endfor %}
+</table>
+{% endblock %}
