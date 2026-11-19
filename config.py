@@ -9,6 +9,7 @@ CAPTURE_DIR = os.path.join(BASE_DIR, "captures")
 SIMULATE_HARDWARE = True      # True = on-screen simulation. Set False once real hardware code is in hardware.py
 CAMERA_INDEX = "auto"         # "auto" = USB webcam if plugged in, otherwise the built-in laptop camera
                               # or force one with a number, e.g. 0 or 1
+CAMERA_BACKEND = "auto"       # "auto", or force one: "dshow", "msmf", "any"  (Windows black-screen fix: try "msmf")
 CAMERA_PREFER_EXTERNAL = True # auto mode: prefer the external (higher index) camera
 CAMERA_SCAN_RANGE = 5         # auto mode: how many camera indexes to check (0..4)
 CAPTURE_COUNTDOWN = 5         # seconds the borrower gets to pose after tapping CAPTURE
