@@ -10,6 +10,7 @@ from datetime import datetime
 import cv2
 from PIL import Image, ImageTk
 
+import camera
 import config
 import database as db
 import hardware
@@ -353,14 +354,14 @@ class CameraScreen(Screen):
         self.open_camera()
 
     def open_camera(self):
-        if sys.platform.startswith("win"):
-            cap = cv2.VideoCapture(config.CAMERA_INDEX, cv2.CAP_DSHOW)
-        else:
-            cap = cv2.VideoCapture(config.CAMERA_INDEX)
-        if not cap.isOpened():
-            self.status.config(text="Camera not found. Please call the administrator.", fg=RED)
+        self.status.config(text="Starting camera...", fg=MUTED)
+        self.update_idletasks()
+        cap, info = camera.find_camera()
+        if cap is None:
+            self.status.config(text=info, fg=RED)
             return
         self.cap = cap
+        self.cam_info = info
         self.cap_btn.config(state="normal")
         self.loop()
 

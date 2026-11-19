@@ -7,7 +7,10 @@ CAPTURE_DIR = os.path.join(BASE_DIR, "captures")
 
 # ---------------- Hardware ----------------
 SIMULATE_HARDWARE = True      # True = on-screen simulation. Set False once real hardware code is in hardware.py
-CAMERA_INDEX = 0              # 0 = first webcam
+CAMERA_INDEX = "auto"         # "auto" = USB webcam if plugged in, otherwise the built-in laptop camera
+                              # or force one with a number, e.g. 0 or 1
+CAMERA_PREFER_EXTERNAL = True # auto mode: prefer the external (higher index) camera
+CAMERA_SCAN_RANGE = 5         # auto mode: how many camera indexes to check (0..4)
 CAPTURE_COUNTDOWN = 5         # seconds the borrower gets to pose after tapping CAPTURE
 SKIP_CAMERA_FOR_TESTING = False  # True = skip face capture (only for testing without a webcam)
 RETURN_TIMEOUT_SECONDS = 60   # how long to wait for the IR sensor to see the returned item
